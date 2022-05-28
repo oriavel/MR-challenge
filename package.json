@@ -1,0 +1,19 @@
+{
+  "name": "mr-challenge",
+  "version": "1.0.0",
+  "description": "Oriana Aveledo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oriavel/MR-challenge.git"
+  },
+  "author": "Oriana Aveledo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oriavel/MR-challenge/issues"
+  },
+  "homepage": "https://github.com/oriavel/MR-challenge#readme"
+}
