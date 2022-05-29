@@ -1,17 +1,14 @@
 // main
 // librería de file reader
-const path = require('path');
-const fs = require('fs');
+import * as fs from 'fs';
+import {Robot} from './robot.js'
 const command = './src/commands.txt';
 
 let xMAX, yMAX; // board dimensions
 // scent list
 
 
-
-
 function readfile(file) {
-
     try {
         const f = fs.readFileSync(file, 'utf8');
         console.log(f);
@@ -19,12 +16,9 @@ function readfile(file) {
     } catch (err) {
         console.error(err);
     }
-
 }
 
-
-
-
+// manage line 0 of input
 function setDimensions(line) {
     let poss = line.split(" ");
     let x = poss[0];
@@ -36,11 +30,37 @@ function setDimensions(line) {
         xMAX = x;
         yMAX = y;        
     }
-    console.log(xMAX);
-    console.log(yMAX);
 }
+
+// manage first line of input: robot location
+function createRobot(line){
+    let coords = line.split(" ");
+    let x = coords[0];
+    let y = coords[1];
+    let dir = coords[2];
+    // create robot: pass limits and coordinates
+    let robot = new Robot(x, y, dir, false);
+    console.log(robot.dir);
+    return robot;
+}
+
+
+
 
 const lines = readfile(command);
 setDimensions(lines[0]);
+for(let i = 1; i < lines.length; i++){
+    let robot;
+    // create robots in odd lines
+    if(i%2 == 1){
+       robot = createRobot(lines[i]);
+       
+    } else {
+        // process instructions in even lines
+        console.log(lines[i]);
+    }
+    
+}
+
 
 
