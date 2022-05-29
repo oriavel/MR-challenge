@@ -1,28 +1,46 @@
 // main
 // librería de file reader
-
+const path = require('path');
+const fs = require('fs');
 const command = './src/commands.txt';
 
-const fs = require('fs');
+let xMAX, yMAX; // board dimensions
+// scent list
 
-function readfile(file){
-    fs.readFile(file, 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(data);
-        x = data.charAt(0);
-        y = data.charAt(2);
-      });
+
+
+
+function readfile(file) {
+
+    try {
+        const f = fs.readFileSync(file, 'utf8');
+        console.log(f);
+        return f.split("\n");
+    } catch (err) {
+        console.error(err);
+    }
+
 }
-function setDimensions(x,y){
-    if(x >= 50 || y >= 50 || x < 0 || y < 0){
+
+
+
+
+function setDimensions(line) {
+    let poss = line.split(" ");
+    let x = poss[0];
+    let y = poss[1];
+    if (x >= 50 || y >= 50 || x < 0 || y < 0) {
         console.log("Wrong dimensions!");
     } else {
-        // define limits for the board const Y-MAX and X-MAX
+        // define limits for the board 
+        xMAX = x;
+        yMAX = y;        
     }
+    console.log(xMAX);
+    console.log(yMAX);
 }
-readfile(command);
+
+const lines = readfile(command);
+setDimensions(lines[0]);
 
 
