@@ -30,7 +30,7 @@ Since the grid is rectangular and bounded (...yes Mars is a strange planet), a r
 
 ✅ Mark scent of a cell when a robot falls from it, so others don't fall
 
-
+✅ Each robot is processed sequentially, i.e., finishes executing the robot instructionsbefore the next robot begins execution.
 
 ## Optional requisites - nice to have - to improve
 ✅ Use of libraries: fs for file management
@@ -44,10 +44,10 @@ Since the grid is rectangular and bounded (...yes Mars is a strange planet), a r
 ❌ Docker shipping
 
 ## Implementation details
-INPUT => file
+INPUT => file in **MR-challenge/input/commands.js**
 OUTPUT => terminal
 
-I used a simple script approach, using only modules for each type of instruction. All the scripts related to the app's logic are located in the **MR-challenge/src** directory. It consists of a main.js, which manages input and output processing, robot, board and falling logic. There's also an **/actions** directory, which implements the intructions modules.
+I used a simple script approach, using only modules for each type of instruction. All the scripts related to the app's logic are located in the **MR-challenge/src** directory. It consists of a main.js, which manages input and output processing, robot, board and falling logic. There's also an **/src/actions** directory, which implements the intructions modules.
 
 The robot and board aren't explicitly defined: 
 - the robot is defined implicitly by the position {x,y,dir} and the isFallen state
