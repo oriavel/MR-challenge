@@ -30,7 +30,7 @@ Since the grid is rectangular and bounded (...yes Mars is a strange planet), a r
 
 ✅ Mark scent of a cell when a robot falls from it, so others don't fall
 
-
+✅ Each robot is processed sequentially, i.e., finishes executing the robot instructionsbefore the next robot begins execution.
 
 ## Optional requisites - nice to have - to improve
 ✅ Use of libraries: fs for file management
@@ -44,10 +44,10 @@ Since the grid is rectangular and bounded (...yes Mars is a strange planet), a r
 ❌ Docker shipping
 
 ## Implementation details
-INPUT => file
+INPUT => file in **MR-challenge/input/commands.js**
 OUTPUT => terminal
 
-I used a simple script approach, using only modules for each type of instruction. All the scripts related to the app's logic are located in the **MR-challenge/src** directory. It consists of a main.js, which manages input and output processing, robot, board and falling logic. There's also an **/actions** directory, which implements the intructions modules.
+I used a simple script approach, using only modules for each type of instruction. All the scripts related to the app's logic are located in the **MR-challenge/src** directory. It consists of a main.js, which manages input and output processing, robot, board and falling logic. There's also an **/src/actions** directory, which implements the intructions modules.
 
 The robot and board aren't explicitly defined: 
 - the robot is defined implicitly by the position {x,y,dir} and the isFallen state
@@ -56,6 +56,31 @@ The robot and board aren't explicitly defined:
 I only keep the last position and state of the robot in the output, which can be identified because robots are placed in the same order in the output as they are in the input. This can be improved with a persistence layer, were I could keep each robot's information and even give them an identifier (ideally with mongo or a JSON).
 
 The implementation of the fall was kept in the main file due to its simplicity, and need for types in the managing of certain variables. I would be nice to modularize it using typescript, for example. 
+
+### Input, output and dimensions
+
+The input is interpreted as
+```
+xMAX yMAX
+x y dir
+[instructions]
+x y dir
+[instructions]
+```
+
+Given I/O example for the challenge
+<img width="104" alt="image" src="https://user-images.githubusercontent.com/58531404/171019101-1690d06d-8bbd-4500-8cc4-96b300fd41ad.png">
+
+The domain of a coordenate x is defined as `D(x)=[0, xMAX-1]`
+
+**Note:** in the example given for input output, the last robot starts in a forbidden cell (0,3). The coordinate y is 3, and that value is greater than the allowed domain xMAX-1 = 2. Also, there is no scent in this cell, the scent from previous robot was left at cell (3,2) . I interpreted this as a mistake, so this program will get a fall for that robot in its first intruction.
+
+Correct output:
+```
+1 1 E
+3 3 N LOST
+0 3 S LOST
+```
 
 ## Author
 Oriana Aveledo
