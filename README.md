@@ -60,21 +60,27 @@ The implementation of the fall was kept in the main file due to its simplicity, 
 ### Input, output and dimensions
 
 The input is interpreted as
-```xMAX yMAX
+```
+xMAX yMAX
 x y dir
 [instructions]
 x y dir
-[instructions]```
+[instructions]
+```
 
 Given I/O example for the challenge
 <img width="104" alt="image" src="https://user-images.githubusercontent.com/58531404/171019101-1690d06d-8bbd-4500-8cc4-96b300fd41ad.png">
 
-The domain of a coordenate x is defined as D(x)=[0, xMAX-1]
-**Note:** in the example given for input output, the last robot starts in a forbidden cell (0,3). The coordinate y is 3, and that value is greater than the allowed domain xMAX-1 = 2. I interpreted this as a mistake, so this program will get a fall for that robot in its first intruction.
+The domain of a coordenate x is defined as `D(x)=[0, xMAX-1]`
+
+**Note:** in the example given for input output, the last robot starts in a forbidden cell (0,3). The coordinate y is 3, and that value is greater than the allowed domain xMAX-1 = 2. Also, there is no scent in this cell, the scent from previous robot was left at cell (3,2) . I interpreted this as a mistake, so this program will get a fall for that robot in its first intruction.
+
 Correct output:
-```1 1 E
+```
+1 1 E
 3 3 N LOST
-0 3 S LOST```
+0 3 S LOST
+```
 
 ## Author
 Oriana Aveledo
