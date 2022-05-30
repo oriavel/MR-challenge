@@ -39,13 +39,13 @@ Since the grid is rectangular and bounded (...yes Mars is a strange planet), a r
 
 ❌ Persistence layer (TODO): store robots trajectory, placement, boards, etc in JSON
 
-❌ Testing
+❌ Testing: TODO
 
-❌ Docker shipping
+❌ Docker shipping: TODO
 
 ## Implementation details
-INPUT => file in **MR-challenge/input/commands.js**
-OUTPUT => terminal
+- INPUT => file in **MR-challenge/input/commands.js**
+- OUTPUT => terminal
 
 I used a simple script approach, using only modules for each type of instruction. All the scripts related to the app's logic are located in the **MR-challenge/src** directory. It consists of a main.js, which manages input and output processing, robot, board and falling logic. There's also an **/src/actions** directory, which implements the intructions modules.
 
