@@ -1,11 +1,14 @@
-// main
 // librería de file reader
-import * as fs from 'fs';
-import {Robot} from './robot.js'
+import * as fs from 'fs'; 
+// modules
+import actions from './actions/actions.js';
+// files
 const command = './src/commands.txt';
 
+// board attributes
+const boardMAX = 50;
 let xMAX, yMAX; // board dimensions
-// scent list
+let scents = []; // empty list
 
 
 function readfile(file) {
@@ -21,9 +24,9 @@ function readfile(file) {
 // manage line 0 of input
 function setDimensions(line) {
     let poss = line.split(" ");
-    let x = poss[0];
-    let y = poss[1];
-    if (x >= 50 || y >= 50 || x < 0 || y < 0) {
+    let x = parseInt(poss[0]);
+    let y = parseInt(poss[1]);
+    if (x >= boardMAX || y >= boardMAX || x < 0 || y < 0) {
         console.log("Wrong dimensions!");
     } else {
         // define limits for the board 
@@ -32,35 +35,77 @@ function setDimensions(line) {
     }
 }
 
-// manage first line of input: robot location
-function createRobot(line){
-    let coords = line.split(" ");
-    let x = coords[0];
-    let y = coords[1];
-    let dir = coords[2];
-    // create robot: pass limits and coordinates
-    let robot = new Robot(x, y, dir, false);
-    console.log(robot.dir);
-    return robot;
+function isBorder(position) {
+    let x = parseInt(position.x); 
+    let y = parseInt(position.y);
+    return (x > xMAX || y > yMAX || x < 0 || y < 0);
+}
+  
+function fall(newPosition, state) { 
+    let x = state.pos.x;
+    let y = state.pos.y;
+    // if it will pass the border (depending on scent) => add scent to list and fall
+    if(isBorder(newPosition) && !scents.includes({x, y}) && !state.isFallen){ // isFallen just to check in case of coding error
+        scents.push({x,y});
+        return {pos: state.pos, isFallen: true}; // keep falling position. Performs last action
+    // not in danger, so robot just acts normal
+    } else {
+        return {pos: newPosition, isFallen: state.isFallen};
+    }
 }
 
+function processInstructions(acts, initPos){
+    if (acts.length > 100) {
+        console.log("Too many instructions!");
+        return;
+    }
 
+    let out ="";                                    // output string
+    let state = {pos: initPos, isFallen:false};     // position and isFallen (assuming robot is initially placed inside the board)
+    for(let i = 0; i < acts.length; i++){
+        let p = state.pos;
+        if(!state.isFallen){
+            state = fall(actions[acts[i]](p), state); // {{x, y, dir}, isFallen} 
+            console.log(state);
+            out = p.x + " " + p.y + " " + p.dir;
+        } else {
+            out = p.x + " " + p.y + " " + p.dir + " LOST";
+            return out;
+        }
+    }
+    return out;
 
+} 
 
+// main code
 const lines = readfile(command);
+let output = "";
 setDimensions(lines[0]);
-for(let i = 1; i < lines.length; i++){
-    let robot;
+let i = 1;
+while(i < lines.length){
     // create robots in odd lines
     if(i%2 == 1){
-       robot = createRobot(lines[i]);
-       
-    } else {
-        // process instructions in even lines
-        console.log(lines[i]);
+        // odd line = robot specification
+        let line = lines[i];
+        let coords = line.trim().split(" ");
+        // ROBOT(x, y, dir, fallen) found unnecessary to make a class in this case
+        let x = coords[0];
+        let y = coords[1];
+        let dir = coords[2];
+        i++;
+
+        // even line = instructions
+        console.log("new robot");
+        // process instructions in even lines, for robots created in previous iteration
+        output = output + processInstructions(lines[i].trim(), {x, y, dir}) + "\n";
+        
+        // guardar output de robot
+        i++;
     }
     
 }
+
+console.log(output);
 
 
 
