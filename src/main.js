@@ -24,7 +24,7 @@ function setDimensions(line) {
 function isBorder(position) {
     let x = parseInt(position.x); 
     let y = parseInt(position.y);
-    return (x > xMAX || y > yMAX || x < 0 || y < 0);
+    return (x > (xMAX-1) || y > (yMAX - 1)|| x < 0 || y < 0);
 }
   
 function fall(newPosition, state) { 
@@ -33,7 +33,7 @@ function fall(newPosition, state) {
     // if it will pass the border (depending on scent) => add scent to list and fall
     if(isBorder(newPosition) && !scents.includes({x, y}) && !state.isFallen){ // isFallen just to check in case of coding error
         scents.push({x,y});
-        return {pos: state.pos, isFallen: true}; // keep falling position. Performs last action
+        return {pos: newPosition, isFallen: true}; // keep falling position. Performs last action
     // not in danger, so robot just acts normal
     } else {
         return {pos: newPosition, isFallen: state.isFallen};
@@ -51,16 +51,14 @@ function processInstructions(acts, initPos){
     for(let i = 0; i < acts.length; i++){
         let p = state.pos;
         if(!state.isFallen){
-            state = fall(actions[acts[i]](p), state); // {{x, y, dir}, isFallen} 
-            console.log(state);
-            out = p.x + " " + p.y + " " + p.dir;
+            state = fall(actions[acts[i]](p), state); // {{x, y, dir}, isFallen}      
+            out = state.pos.x + " " + state.pos.y + " " + state.pos.dir;
         } else {
             out = p.x + " " + p.y + " " + p.dir + " LOST";
             return out;
         }
     }
     return out;
-
 } 
 
 // main code
@@ -81,17 +79,16 @@ while(i < lines.length){
         i++;
 
         // even line = instructions
-        console.log("new robot");
         // process instructions in even lines, for robots created in previous iteration
         output = output + processInstructions(lines[i].trim(), {x, y, dir}) + "\n";
-        
         // guardar output de robot
         i++;
     }
-    
 }
-
 console.log(output);
+//console.log(scents);
+
+
 
 
 
