@@ -5,26 +5,49 @@
 Since the grid is rectangular and bounded (...yes Mars is a strange planet), a robot that moves "off" an edge of the grid is lost forever. However, lost robots leave a robot "scent"that prohibits future robots from dropping off the world at the same grid point. The scentis left at the last grid position the robot occupied before disappearing over the edge. Aninstruction to move "off" the world from a grid point from which a robot has beenpreviously lost is simply ignored by the current robot."
 
 # HOW TO RUN THE APP
+1. Open terminal
+2. Clone the repository: `git clone https://github.com/oriavel/MR-challenge.git`
+3. Install node: `npm install`
+4. Run the code:
+	- take terminal to MR-challenge directory `cd ./MR-challenge`
+	- run command  `npm start`
+5. To modify input: change commands.txt file in /input directory, following the specification
 
-### Requisites
-✅ NodeJS app
+
+# Requisites
+
+✅ NodeJS app 
+
 ✅ Robot turns and moves forward when it receives the corresponding instruction.
+
 ✅ The output indicates the final grid position and orientation of the robot, and whether it has fallen or not.
+
 ✅ Max 100 instructions per robot
+
 ✅ Board max dimension = 50 x 50 cells
-✅ More than one robot.
+
+✅ Process multiple robots
+
 ✅ Mark scent of a cell when a robot falls from it, so others don't fall
+
 
 
 ## Optional requisites - nice to have - to improve
 ✅ Use of libraries: fs for file management
+
 ✅ Application running (execute the process over a given input) with simple script approach
+
 ❌ Persistence layer (TODO): store robots trajectory, placement, boards, etc in JSON
+
 ❌ Testing
+
 ❌ Docker shipping
 
-### Implementation points
-I used a simple script approach, using only modules for each type of instruction.
+## Implementation details
+INPUT => file
+OUTPUT => terminal
+
+I used a simple script approach, using only modules for each type of instruction. All the scripts related to the app's logic are located in the **MR-challenge/src** directory. It consists of a main.js, which manages input and output processing, robot, board and falling logic. There's also an **/actions** directory, which implements the intructions modules.
 
 The robot and board aren't explicitly defined: 
 - the robot is defined implicitly by the position {x,y,dir} and the isFallen state
@@ -34,5 +57,5 @@ I only keep the last position and state of the robot in the output, which can be
 
 The implementation of the fall was kept in the main file due to its simplicity, and need for types in the managing of certain variables. I would be nice to modularize it using typescript, for example. 
 
-### Author
+## Author
 Oriana Aveledo
