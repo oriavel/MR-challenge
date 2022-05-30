@@ -1,25 +1,11 @@
-// librería de file reader
-import * as fs from 'fs'; 
 // modules
 import actions from './actions/actions.js';
-// files
-const command = './src/commands.txt';
+import readInstructions from './file-reader.js'
 
 // board attributes
 const boardMAX = 50;
 let xMAX, yMAX; // board dimensions
-let scents = []; // empty list
-
-
-function readfile(file) {
-    try {
-        const f = fs.readFileSync(file, 'utf8');
-        console.log(f);
-        return f.split("\n");
-    } catch (err) {
-        console.error(err);
-    }
-}
+let scents = []; // empty list of scents
 
 // manage line 0 of input
 function setDimensions(line) {
@@ -78,7 +64,7 @@ function processInstructions(acts, initPos){
 } 
 
 // main code
-const lines = readfile(command);
+const lines = readInstructions();
 let output = "";
 setDimensions(lines[0]);
 let i = 1;

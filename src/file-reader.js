@@ -1,12 +1,19 @@
-const fs = require('fs');
+// librería de file reader
+import * as fs from 'fs'; 
+// files
+const commands = './input/commands.txt';
 
-function readfile(file){
-    fs.readFile(file, 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(data);
-      });
+const readInstructions = () => {
+    try {
+        const f = fs.readFileSync(commands, 'utf8');
+        console.log(f);
+        return f.split("\n");
+    } catch (err) {
+        console.error(err);
+    }
 }
+
+export default readInstructions;
+
+
 
